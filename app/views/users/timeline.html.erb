@@ -1,0 +1,15 @@
+<%= link_to "home", users_path %><br/>
+
+Hallo <%= "#{@user['first_name']}" %><br/><br/>
+
+<div>
+<h2>Stream:</h2>
+<% @timeline.fetch do |f| %>
+  <% f.to_hash.each do |key, value| %>
+    <% unless key == "uid" %>
+      <div class = "item">
+        <%= JSON.parse(value)['content'] %>
+      </div>
+    <%end%>
+  <%end%>
+<%end%>

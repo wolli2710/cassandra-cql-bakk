@@ -1,0 +1,18 @@
+<h1>User List:</h1>
+<div id="links">
+  <%= link_to "home", users_path %><br/>
+  <%= link_to "new message", new_message_path %><br/>
+  <%= link_to "delete messages", delete_messages_path, :action => :delete_messages %><br/><br/>
+</div>
+
+<% @messages.fetch do |f| %>
+  <% f.to_hash.each do |key, value| %>
+    <% unless key == "uid" %>
+      <div class = "item">
+      <div class="image">aaaahhh<%= image_tag(Image.get_gravatar "")%></div>
+        <%= key %>
+        <%= value %><br/>
+      </div>
+    <%end%>
+  <%end%>
+<%end%>

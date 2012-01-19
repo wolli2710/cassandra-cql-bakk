@@ -1,0 +1,9 @@
+<h1>Create new User</h1>
+
+<%= form_tag('/users') do %>
+  <%= hidden_field_tag :uid, @uid %>
+  <%= text_field_tag 'first_name', :first_name %>
+  <%= text_field_tag 'last_name', :last_name %>
+  <%= text_field_tag 'e_mail', :e_mail %>
+  <%= submit_tag 'submit' %>
+<%end%>

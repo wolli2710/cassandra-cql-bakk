@@ -1,0 +1,20 @@
+<div class="item">
+  <div class="image"><%= image_tag(Image.get_gravatar @user['email'] )%></div>
+  <%= "Userprofil von: #{@user['first_name']} #{@user['last_name']}" %>
+</div><br/>
+
+<%= link_to "go to timeline", timeline_path(:id => @user['uid']) %>
+<div id="wrapper">
+  <%= "Follower ids:" %>
+  <%= "TODO" %><br/>
+
+  <%= "Your last messages:" %><br/>
+  <% @messages.to_hash.each do |key, value| %>
+    <% unless key == "uid" %>
+      <div class="item">
+        <div class="image"><%= image_tag(Image.get_gravatar @user['email'] )%></div>
+        <%=value%><br/>
+       </div>
+    <%end%>
+  <% end %>
+</div>

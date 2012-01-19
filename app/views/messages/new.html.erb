@@ -1,0 +1,7 @@
+<%= form_tag('/messages') do %>
+  <%= hidden_field_tag @mid, :mid %>
+  <%= text_field_tag 'uid', :uid %>
+  <%= text_field_tag 'content', :content %>
+  <%= submit_tag 'submit' %>
+<%end%>
+

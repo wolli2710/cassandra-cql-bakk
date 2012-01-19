@@ -1,0 +1,25 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#links{
+  margin:20px;
+}
+
+.item{
+  background: #cccccc;
+  margin:5px;
+  margin-left:20px;
+  width: 500px;
+  height: 80px;
+  padding: 4px;
+}
+
+.image{
+  float:left;
+  margin-right: 20px;
+}
+
+.user{
+  color: green;
+}
