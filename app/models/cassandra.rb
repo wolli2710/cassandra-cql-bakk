@@ -19,13 +19,7 @@ class Cassandra
     @@db.execute("CREATE COLUMNFAMILY user_count(cid varchar PRIMARY KEY, counters counter) WITH default_validation = CounterColumnType")
     @@db.execute("update user_count set counters = counters + 0 where cid = counters ")
 
-    @@db.execute("CREATE COLUMNFAMILY message_count(cid varchar PRIMARY KEY, counters counter) WITH default_validation = CounterColumnType")
-    @@db.execute("update message_count set counters = counters + 0 where cid = counters ")
-
-    @@db.execute("CREATE COLUMNFAMILY followers(fid varchar PRIMARY KEY, uid varchar)" )
-    @@db.execute("CREATE INDEX users_follower_id_idx ON followers (uid)")
-
-    @@db.execute("CREATE COLUMNFAMILY following(uid varchar PRIMARY KEY, fid varchar)" )
+    @@db.execute("CREATE COLUMNFAMILY followers(fid varchar PRIMARY KEY)" )
   end
 
   def self.drop_keyspace

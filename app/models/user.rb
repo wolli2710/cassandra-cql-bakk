@@ -32,36 +32,31 @@ class User < Cassandra
     count.fetch do |c|
       return c[0]
     end
-    # count = @@db.execute("SELECT count(*) FROM users limit 20000")
-    # count.fetch do |c|
-    #   return c[0]
-    # end
   end
 
   def self.update_counter(val)
     @@db.execute("update user_count set counters = counters + #{val} where cid = counters")
   end
 
-  def self.new_user
+  def self.update_user first_name, last_name, email
     uid = User.count_users + 1
-    @@db.execute("INSERT INTO users (uid, first_name, last_name, email) VALUES (?,?,?,?)", uid, "", "", "")
+    @@db.execute("INSERT INTO users (uid, first_name, last_name, email) VALUES (?,?,?,?)", uid, first_name, last_name, email)
     self.update_counter(1)
-    uid
   end
 
-  def self.update_user uid, first_name, last_name, email
-    @@db.execute("update users set first_name = ?, last_name = ?, email = ? where uid = ?", first_name, last_name, email, uid)
-  end
+  def self.follow_user uid, fid
+    time = Time.now.to_i
 
-  def self.mail_check uid
-    user = User.get_user uid
-    return user['email'] == "" ? false : true ;
-  end
+    @@db.execute("Update followers set #{uid.to_s} = ? where fid = ? ", "", fid.to_s)
 
-  def self.create_users
-    (0..19000).each do |f|
-      @@db.execute("INSERT INTO users (uid, first_name, last_name, email) VALUES (?,?,?,?)", f.to_s, "first_name", "last_name", "email")
-      User.update_counter(1)
+    messages = User.get_messages fid
+    i=0
+    messages.to_hash.each do |key, value|
+      unless key == "uid"
+        i = i + 1
+        a = {"content" => JSON.parse(value)['content'], "user_id" => fid.to_s}.to_json
+        @@db.execute("Update timelines set #{time + i} = ? where uid = ? ", a, uid)
+      end
     end
   end
 

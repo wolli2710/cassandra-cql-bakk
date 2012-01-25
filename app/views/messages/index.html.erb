@@ -9,9 +9,9 @@
   <% f.to_hash.each do |key, value| %>
     <% unless key == "uid" %>
       <div class = "item">
-      <div class="image">aaaahhh<%= image_tag(Image.get_gravatar "")%></div>
+      <div class="image"><%= image_tag(Image.get_gravatar JSON.parse(value)['email'])%></div>
         <%= key %>
-        <%= value %><br/>
+        <%= JSON.parse(value)['content'] %><br/>
       </div>
     <%end%>
   <%end%>

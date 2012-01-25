@@ -1,8 +1,4 @@
 CqlTest::Application.routes.draw do
-  resources :followers
-  controller :followers do
-    match 'follow' => :follow
-  end
 
   resources :messages
   controller :messages do
@@ -13,6 +9,7 @@ CqlTest::Application.routes.draw do
   controller :users do
     match 'delete_users' => :delete_users
     match 'timeline' => :timeline
+    match 'follow' => :follow
   end
 
 

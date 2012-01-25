@@ -1,3 +1,0 @@
-class Following < Cassandra
-
-end

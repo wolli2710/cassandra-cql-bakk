@@ -5,7 +5,6 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @uid
   end
 
   def create

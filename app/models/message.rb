@@ -12,30 +12,24 @@ class Message < Cassandra
     @@db.execute("SELECT * FROM messages")
   end
 
-  def self.count_messages
-    count = @@db.execute("SELECT counters FROM message_count")
-    count.fetch do |c|
-      return c[0]
-    end
-    # count = @@db.execute("SELECT count(*) FROM messages")
-    # count.fetch do |c|
-    #   return c[0]
-    # end
-  end
-
   def self.get_followers uid
     @@db.execute("SELECT * FROM followers WHERE fid = ?", uid).fetch
   end
 
   def self.update_message uid, content
     time = Time.now.to_i
-    @@db.execute("UPDATE messages set #{time} = ? WHERE uid = ?", content.to_s, uid.to_s)
-    follower = @@db.execute("SELECT * FROM followers WHERE uid = ?", uid).fetch
+
+    user = User.get_user uid
+	  new_json_obj = {"content" => content, "email" => user['email']}.to_json
+
+    @@db.execute("UPDATE messages set #{time} = ? WHERE uid = ?", new_json_obj, uid.to_s)
+
+    follower = @@db.execute("SELECT * FROM followers").fetch
     unless follower.nil?
       follower.to_hash.each do |key, value|
         unless key == "uid"
           json_obj = {"content" => content, "user_id" => uid}.to_json
-          @@db.execute("UPDATE timelines set #{time} = ? WHERE uid = ?", json_obj , value)
+          @@db.execute("UPDATE timelines set #{time} = ? WHERE uid = ?", json_obj , key)
         end
       end
     end
